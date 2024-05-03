@@ -74,7 +74,7 @@ def isUUID(some_string):
     return Pass
 
 
-def check_json_parser() -> bool:
+def check_json_parser(parse_json) -> bool:
     pass_json = False
     try:
         with open(
@@ -97,10 +97,10 @@ def check_json_parser() -> bool:
     return pass_json
 
 
-def check_bson_parser() -> bool:
+def check_bson_parser(parse_bson) -> bool:
     pass_bson = False
     try:
-        with open("ETCE/GroupA/Ex03/multi_format/ws3/100.bson", "rb") as bsonfile:
+        with open("ETCE/GroupA/Ex04/multi_format/ws3/100.bson", "rb") as bsonfile:
             bson_data = bsonfile.read()
             pass_bson = parse_bson(bson_data) == ETCEDict(
                 {
@@ -119,10 +119,10 @@ def check_bson_parser() -> bool:
     return pass_bson
 
 
-def check_xml_parser() -> bool:
+def check_xml_parser(parse_xml) -> bool:
     pass_xml = False
     try:
-        with open("ETCE/GroupA/Ex03/multi_format/ws4/7.xml", "r") as xmlfile:
+        with open("ETCE/GroupA/Ex04/multi_format/ws4/7.xml", "r") as xmlfile:
             xml_data = xmlfile.read()
             pass_xml = parse_xml(xml_data) == ETCEDict(
                 {
@@ -140,10 +140,10 @@ def check_xml_parser() -> bool:
     return pass_xml
 
 
-def check_volts_parser() -> bool:
+def check_volts_parser(parse_volts) -> bool:
     pass_volts = False
     try:
-        with open("ETCE/GroupA/Ex03/multi_format/ws5/4.xml", "r") as voltsfile:
+        with open("ETCE/GroupA/Ex04/multi_format/ws5/4.xml", "r") as voltsfile:
             volts_data = voltsfile.read()
             pass_volts = parse_volts(volts_data) == ETCEDict({"temp": 5.33})
     except Exception as E:
@@ -200,10 +200,10 @@ not valid"
 timestamp in the correct timezone"
         )
 
-    pass_json = check_json_parser()
-    pass_bson = check_bson_parser()
-    pass_xml = check_xml_parser()
-    pass_volts = check_volts_parser()
+    pass_json = check_json_parser(parse_json)
+    pass_bson = check_bson_parser(parse_bson)
+    pass_xml = check_xml_parser(parse_xml)
+    pass_volts = check_volts_parser(parse_volts)
 
     if not pass_json:
         print("parse_json() is not correct")
