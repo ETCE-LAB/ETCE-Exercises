@@ -365,8 +365,8 @@ def evaluation():
 
     return (evaluation_A * 100,)
 
-def evaluate()
 
+def evaluate():
     e = evaluation()
 
     print(f"Grade = {e[0]}%")
