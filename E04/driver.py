@@ -4,7 +4,6 @@ from uuid import UUID
 import json
 import numbers
 from decimal import Decimal
-import nbimporter
 
 
 class ETCEFloat(float):
@@ -79,7 +78,7 @@ def check_json_parser() -> bool:
     pass_json = False
     try:
         with open(
-            os.path.join("ETCE/GroupA/Ex03/multi_format/ws1/11.json"), "r"
+            os.path.join("ETCE/GroupA/Ex04/multi_format/ws1/11.json"), "r"
         ) as jsonfile:
             json_data = jsonfile.read()
             pass_json = parse_json(json_data) == ETCEDict(
@@ -153,7 +152,9 @@ def check_volts_parser() -> bool:
     return pass_volts
 
 
-def check_solution_A():
+def check_solution_A(
+    solution, parse_json, parse_bson, parse_xml, parse_timestamp, get_uuid, parse_volts
+):
     sol_a = solution()
     sol_a_json = None
     with open("ga.sol.json") as jsonfile:
@@ -347,7 +348,9 @@ def check_ts_B(b_sol, b_sol_dict):
 aa = None
 
 
-def evaluation():
+def evaluation(
+    solution, parse_json, parse_bson, parse_xml, parse_timestamp, get_uuid, parse_volts
+):
     """
     This method computes the evaluation based on a weighting factor
     """
@@ -356,7 +359,18 @@ def evaluation():
 
     evaluation_A = 0
     try:
-        for success, weight in zip(check_solution_A(), weighting_a):
+        for success, weight in zip(
+            check_solution_A(
+                solution,
+                parse_json,
+                parse_bson,
+                parse_xml,
+                parse_timestamp,
+                get_uuid,
+                parse_volts,
+            ),
+            weighting_a,
+        ):
             if success:
                 evaluation_A += weight
     except Exception as E:
@@ -366,8 +380,18 @@ def evaluation():
     return (evaluation_A * 100,)
 
 
-def evaluate():
-    e = evaluation()
+def evaluate(
+    solution, parse_json, parse_bson, parse_xml, parse_timestamp, get_uuid, parse_volts
+):
+    e = evaluation(
+        solution,
+        parse_json,
+        parse_bson,
+        parse_xml,
+        parse_timestamp,
+        get_uuid,
+        parse_volts,
+    )
 
     print(f"Grade = {e[0]}%")
 
