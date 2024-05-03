@@ -365,10 +365,11 @@ def evaluation():
 
     return (evaluation_A * 100,)
 
+def evaluate()
 
-e = evaluation()
+    e = evaluation()
 
-print(f"Grade = {e[0]}%")
+    print(f"Grade = {e[0]}%")
 
-if e[0] == 100:
-    print("Perfect Score")
+    if e[0] == 100:
+        print("Perfect Score")
