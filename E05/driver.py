@@ -189,11 +189,6 @@ def evaluation(
     return (evaluation_A * 100,)
 
 
-e = evaluation()
-
-print(f"Grade = {e[0]}%")
-
-
 def evaluate(
         solution, solar, wind
 ):
