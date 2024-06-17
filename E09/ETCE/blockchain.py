@@ -1,14 +1,14 @@
 import _hashlib
 
 
-class Ex08Transaction(object):
+class Ex09Transaction(object):
     """
-    Interface class for Ex08 Transaction Class
+    Interface class for Ex09 Transaction Class
     """
 
     def __init__(self):
         """
-        Constructor for the Ex08 Transaction Class.
+        Constructor for the Ex09 Transaction Class.
         """
         self.inputs = []
         self.outputs = []
@@ -112,14 +112,14 @@ class Ex08Transaction(object):
         pass
 
 
-class Ex08Block(object):
+class Ex09Block(object):
     """
-    Interface class for Ex08 Block class
+    Interface class for Ex09 Block class
     """
 
     def __init__(self):
         """
-        Constructor for Ex08 Block
+        Constructor for Ex09 Block
         """
         self.transactions = {}
         self.block_number = None
@@ -138,7 +138,7 @@ class Ex08Block(object):
     def add_transaction(self, transaction):
         """Method that adds a transaction to the block
         
-        `transaction` should be an instance of Ex08Transaction
+        `transaction` should be an instance of Ex09Transaction
 
         DO NOT OVERRIDE THIS METHOD
         """
@@ -181,13 +181,13 @@ class Ex08Block(object):
         pass
 
 
-class Ex08Blockchain(object):
+class Ex09Blockchain(object):
     """
-    Interface class for Ex08 Blockchain Class
+    Interface class for Ex09 Blockchain Class
     """
 
     def __init__(self, initial_block):
-        """`initial_block` should be an Ex08Block
+        """`initial_block` should be an Ex09Block
         `addresses` should be a dictionary
 
         """
@@ -240,7 +240,7 @@ class Ex08Blockchain(object):
 
     def add_block(self, block) -> bool:
         """Method that adds a block to the blockchain.        
-        `block`: an Ex08Block instance
+        `block`: an Ex09Block instance
         
         DO NOT OVERRIDE THIS METHOD
 
