@@ -3,16 +3,17 @@ import _hashlib
 import traceback
 from copy import deepcopy
 
-try:
-    from solution import Ex08Transaction, Ex08Block, Ex08Blockchain, scenario
-except Exception as E:
-    traceback.print_exc()
-    print("0,0")
+
+# try:
+#    from solution import Ex08Transaction, Ex08Block, Ex08Blockchain, scenario
+# except Exception as E:
+#    traceback.print_exc()
+#    print("0,0")
 
 
-def check_tx():
+def check_tx(t):
     grades = [True, True, True]
-    sample_tx = Ex08Transaction()
+    sample_tx = t
     sample_tx.add_input(hashlib.sha512(b"0x00"), 0)
     sample_tx.add_output("address2", 100)
     try:
@@ -85,9 +86,9 @@ def check_tx():
     return grades, sample_tx
 
 
-def check_block():
+def check_block(t, b):
     tx_grades, sample_tx = check_tx()
-    sample_block = Ex08Block()
+    sample_block = b  # function call -> param
 
     grades = tx_grades + [True, True]
 
@@ -107,7 +108,7 @@ def check_block():
         traceback.print_exc()
         grades[4] = False
 
-    sample_tx2 = Ex08Transaction()
+    sample_tx2 = t
     sample_tx2.set_inputs([{"tx_hash": hashlib.sha512(b"0x00"), "output_index": 0}])
     sample_tx2.set_outputs({"address5": 200})
 
@@ -157,8 +158,8 @@ def check_block():
     return grades
 
 
-def check_scenario():
-    blockchain = scenario()
+def check_scenario(t, b, sc):
+    blockchain = sc
     grades = [True, True]
 
     if len(blockchain.blocklist) != 4:
@@ -166,8 +167,8 @@ def check_scenario():
             "Your transactions are not valid/ block validation is incorrect. (There should be exactly 4 blocks in the blockchain)")
         grades[0] = grades[1] = False
 
-    new_tx = Ex08Transaction()
-    invalid_tx = Ex08Transaction()
+    new_tx = t
+    invalid_tx = t
     last_block = blockchain.blocklist[-1]
 
     req_transaction = None
@@ -209,15 +210,15 @@ def check_scenario():
     invalid_tx.add_output("address2", 180)
     invalid_tx.add_output("address3", 61)
 
-    valid_block = Ex08Block()
-    invalid_block = Ex08Block()
+    valid_block = b
+    invalid_block = b
 
     valid_block.add_transaction(new_tx)
 
     invalid_block.add_transaction(invalid_tx)
     valid_block.previous_block_hash = invalid_block.previous_block_hash = blockchain.blocklist[-1].hash()
 
-    bc1, bc2 = blockchain, scenario()
+    bc1, bc2 = blockchain, sc
 
     print("Trying invalid blocks")
 
@@ -234,18 +235,18 @@ def check_scenario():
     return grades
 
 
-def check_solution():
+def check_solution(t, b, bc, sc):
     block_grades = [False, False, False, False, False]
     scenario_grades = [False, False]
 
     try:
-        block_grades = check_block()
+        block_grades = check_block(t, b)
     except Exception as E:
         print("Could not check block and transaction classes, this could be a bug. Please report.")
         traceback.print_exc()
 
     try:
-        scenario_grades = check_scenario()
+        scenario_grades = check_scenario(t, b, sc)
     except Exception as E:
         print("Could not check scenario")
         traceback.print_exc()
@@ -253,7 +254,7 @@ def check_solution():
     return block_grades + scenario_grades
 
 
-def evaluation():
+def evaluation(t, b, bc, sc):
     """
     This method computes the evaluation based on a weighting factor
     """
@@ -261,7 +262,7 @@ def evaluation():
 
     evaluation = 0
     try:
-        for (success, weight) in zip(check_solution(), weighting):
+        for (success, weight) in zip(check_solution(t, b, bc, sc), weighting):
             if success:
                 evaluation += weight
     except Exception as E:
@@ -270,11 +271,8 @@ def evaluation():
     return (evaluation * 100,)
 
 
-e = evaluation()
-
-print(f"Grade = {e[0]}%")
-
-if e[0] == 100:
-    print("Perfect Score")
-
-
+def evaluate(t, b, bc, sc):
+    e = evaluation(t, b, bc, sc)
+    print(f"Grade = {e[0]}%")
+    if e[0] == 100:
+        print("Perfect Score")
