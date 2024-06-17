@@ -1,8 +1,8 @@
-try:
-    from solution import Solution as Solution_A
-except Exception as E:
-    print(E)
-    print("0,0")
+#try:
+#    from solution import Solution as Solution_A
+#except Exception as E:
+#    print(E)
+#    print("0,0")
 from nacl.secret import SecretBox
 from nacl.encoding import RawEncoder
 from nacl.public import PublicKey, Box, EncryptedMessage
@@ -107,8 +107,8 @@ def check_solution(solution_object):
                              step6_pass]
 
 
-def check_solution_A():
-    solution_object, pass_tuple = check_solution(Solution_A())
+def check_solution_A(solution):
+    solution_object, pass_tuple = check_solution(solution)
     try:
 
         step7_pass = abs(2 - float(solution_object.decrypt(solution_object.seller_decrypt_purchase_request(
@@ -127,7 +127,7 @@ def check_solution_A():
         return tuple(pass_tuple + [False])
 
 
-def evaluation():
+def evaluation(solution):
     """
     This method computes the evaluation based on a weighting factor
     """
@@ -135,7 +135,7 @@ def evaluation():
 
     evaluation_A = 0
     try:
-        for (success, weight) in zip(check_solution_A(), weighting_a):
+        for (success, weight) in zip(check_solution_A(solution), weighting_a):
             if success:
                 evaluation_A += weight
     except Exception as E:
@@ -145,9 +145,11 @@ def evaluation():
     return (evaluation_A * 100,)
 
 
-e = evaluation()
+def evaluate(solution):
 
-print(f"Grade = {e[0]}%")
+    e = evaluation(solution)
 
-if e[0] == 100:
-    print("Perfect Score")
+    print(f"Grade = {e[0]}%")
+
+    if e[0] == 100:
+        print("Perfect Score")
