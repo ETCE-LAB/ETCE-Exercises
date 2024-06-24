@@ -16,7 +16,7 @@ def pseudoblock_helper(Block):
         def hash(self):
             return hashlib.sha512(("thisistechnicallynotablock" + str(self.nonce)).encode("utf-8"))
 
-    return PseudoBlock
+    return PseudoBlock()
 
 
 def check_blockchain(Block):
@@ -40,8 +40,7 @@ def check_blockchain(Block):
 
 
 def check_scenario(sc):
-    scenario = sc()
-    bc_tuple, index = scenario(9, 11, 10, 9)
+    bc_tuple, index = sc(9, 11, 10, 9)
     grades = [True, True]
 
     if len(bc_tuple[0].blocklist) != 4:
@@ -77,7 +76,7 @@ def check_solution(Transaction, Block, Blockchain, scenario):
     return grades
 
 
-def evaluation(Transaction, Block, Blockchain, solution):
+def evaluation(Transaction, Block, Blockchain, scenario):
     """
     This method computes the evaluation based on a weighting factor
     """
@@ -85,7 +84,7 @@ def evaluation(Transaction, Block, Blockchain, solution):
 
     evaluation = 0
     try:
-        for (success, weight) in zip(check_solution(Transaction, Block, Blockchain, solution), weighting):
+        for (success, weight) in zip(check_solution(Transaction, Block, Blockchain, scenario), weighting):
             if success:
                 evaluation += weight
     except Exception as E:
